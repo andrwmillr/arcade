@@ -1,10 +1,10 @@
 import inquirer from 'inquirer';
 
-import gameReducer from './xoxo';
+import { reducer, move, checkWinner } from './game';
 import { createStore } from 'redux';
-import ai from './game/ai';
+// import ai from './game/ai';
 
-const game = createStore(gameReducer.reducer);
+const game = createStore(reducer);
 
 const printBoard = () => {
   const gameState = game.getState();
@@ -16,6 +16,15 @@ const printBoard = () => {
   }
 };
 
+export const addToBoard = (turn, col) => {
+  const { board } = game.getState();
+  for (let row = 5; row >= 0; row--) {
+    if (!board.getIn([row, col])) {
+      return move([row, col], turn);
+    }
+  }
+};
+
 const getInput = player => async () => {
   const { turn } = game.getState();
   if (turn !== player) return;
@@ -23,30 +32,34 @@ const getInput = player => async () => {
     {
       type: 'input',
       name: 'coord',
-      message: `${turn}'s move (row,col):`,
+      message: `${turn}'s move (col):`,
     },
   ]);
-  const [row = 0, col = 0] = ans.coord.split(/[,\s+]/).map(x => +x);
-  game.dispatch(gameReducer.move(turn, [row, col]));
+  const [col = 0] = ans.coord.split(/[,\s+]/).map(x => +x);
+  const nextMove = addToBoard(turn, col);
+  game.dispatch(nextMove);
 };
 
 const printWinner = () => {
   const { board } = game.getState();
-  return gameReducer.winner(board);
+  return checkWinner(board);
 };
 
-const aiMove = aiXO => {
-  if (game.getState().turn === aiXO) {
-    game.dispatch(gameReducer.move(aiXO, ai.chooseMove(game.getState())));
-  }
-};
+// const aiMove = aiXO => {
+//   if (game.getState().turn === aiXO) {
+//     const cpuMove = ai.chooseMove(game.getState());
+//     const nextMove = addToBoard(aiXO, cpuMove);
+//     game.dispatch(nextMove);
+//   }
+// };
 
 game.subscribe(printBoard);
 game.subscribe(() => game.getState());
 game.subscribe(getInput('X'));
-game.subscribe(() => aiMove('O'));
+game.subscribe(getInput('O'));
+// game.subscribe(() => aiMove('O'));
 game.subscribe(() => {
-  if (game.getState().winner !== null) {
+  if (game.getState().winner) {
     console.log(game.getState().winner, 'is the winner!');
     process.exit(0);
   }

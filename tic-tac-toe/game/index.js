@@ -18,7 +18,7 @@ const streak = (streakBoard, coords) => {
   return result;
 };
 
-const winner = function(thisBoard) {
+const checkWinner = function(thisBoard) {
   if (streak(thisBoard, [[0, 0], [1, 1], [2, 2]])) {
     return streak(thisBoard, [[0, 0], [1, 1], [2, 2]]);
   }
@@ -89,7 +89,7 @@ const reducer = (state = { board: board }, action) => {
   return {
     board: boardReducer(state, action),
     turn: turnReducer(state, action),
-    winner: winner(boardReducer(state, action)),
+    winner: checkWinner(boardReducer(state, action)),
   };
 };
 
@@ -110,4 +110,4 @@ const bad = (state, action) => {
   return null;
 };
 
-module.exports = { reducer, move, winner, streak };
+module.exports = { reducer, move, checkWinner, streak };

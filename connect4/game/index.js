@@ -1,7 +1,10 @@
 import { Map } from 'immutable';
+import checkWinner from './checkWinner';
+import checkError from './checkError';
+
 let board = Map();
 
-const move = (player, position) => {
+const move = (position, player) => {
   return { type: 'MOVE', player: player, position: position };
 };
 
@@ -28,32 +31,19 @@ const boardReducer = (state, action) => {
 };
 
 const reducer = (state = { board: board }, action) => {
-  const error = bad(state, action);
+  const error = checkError(state, action);
   if (error) {
     return { ...state, error };
   }
   return {
     board: boardReducer(state, action),
     turn: turnReducer(state, action),
-    winner: winner(boardReducer(state, action)),
+    winner: checkWinner(
+      boardReducer(state, action),
+      action.position,
+      action.player
+    ),
   };
 };
 
-const bad = (state, action) => {
-  if (action.type === 'MOVE') {
-    const posArr = action.position;
-    if (posArr[0] < 0 || posArr[0] > 5 || posArr[1] < 0 || posArr[1] > 6) {
-      return 'ERROR: please input a number between 0 and 2.';
-    }
-    // if (typeof posArr[0] != Number || typeof posArr[1] != Number) {
-    //   console.log(posArr);
-    //   return 'ERROR: integers only!';
-    // }
-    if (state.board.hasIn(action.position)) {
-      return `ERROR: position ${action.position} is already filled.`;
-    }
-  }
-  return null;
-};
-
-module.exports = { reducer, move };
+module.exports = { reducer, move, checkWinner };

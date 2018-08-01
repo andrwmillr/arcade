@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 
-import gameReducer from './tic-tac-toe';
+import gameReducer from './game';
 import { createStore } from 'redux';
 import ai from './game/ai';
 
@@ -32,7 +32,7 @@ const getInput = player => async () => {
 
 const printWinner = () => {
   const { board } = game.getState();
-  return gameReducer.winner(board);
+  return gameReducer.checkWinner(board);
 };
 
 const aiMove = aiXO => {
@@ -46,7 +46,7 @@ game.subscribe(() => game.getState());
 game.subscribe(getInput('X'));
 game.subscribe(() => aiMove('O'));
 game.subscribe(() => {
-  if (game.getState().winner !== null) {
+  if (game.getState().winner) {
     console.log(game.getState().winner, 'is the winner!');
     process.exit(0);
   }
