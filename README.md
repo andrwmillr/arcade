@@ -1,3 +1,7 @@
 # arcade
 
-play some games
+play some games!
+
+``` npm install ```
+
+``` npm start ```
