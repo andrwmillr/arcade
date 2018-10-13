@@ -1,6 +1,6 @@
-# arcade
+# Arcade
 
-play some games!
+Play Tic-Tac-Toe (with AI) and Connect Four in your command line!
 
 ``` npm install ```
 
