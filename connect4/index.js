@@ -2,7 +2,6 @@ import inquirer from 'inquirer';
 
 import { reducer, move, checkWinner } from './game';
 import { createStore } from 'redux';
-// import ai from './game/ai';
 
 const game = createStore(reducer);
 
@@ -45,19 +44,10 @@ const printWinner = () => {
   return checkWinner(board);
 };
 
-// const aiMove = aiXO => {
-//   if (game.getState().turn === aiXO) {
-//     const cpuMove = ai.chooseMove(game.getState());
-//     const nextMove = addToBoard(aiXO, cpuMove);
-//     game.dispatch(nextMove);
-//   }
-// };
-
 game.subscribe(printBoard);
 game.subscribe(() => game.getState());
 game.subscribe(getInput('X'));
 game.subscribe(getInput('O'));
-// game.subscribe(() => aiMove('O'));
 game.subscribe(() => {
   if (game.getState().winner) {
     console.log(game.getState().winner, 'is the winner!');
