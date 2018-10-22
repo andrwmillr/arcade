@@ -1,7 +1,6 @@
 # Arcade
 
-Command line Tic-Tac-Toe and Connect Four, built with Redux.
+An app for playing Tic-Tac-Toe and Connect Four in the command line, built with Redux.
 
-``` npm install ```
 
-``` npm start ```
+To play Connect Four, ```npm install``` and ```npm start```.
