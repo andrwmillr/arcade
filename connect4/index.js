@@ -15,7 +15,7 @@ const printBoard = () => {
   }
 };
 
-export const addToBoard = (turn, col) => {
+const addToBoard = (turn, col) => {
   const { board } = game.getState();
   for (let row = 5; row >= 0; row--) {
     if (!board.getIn([row, col])) {
@@ -44,19 +44,23 @@ const printWinner = () => {
   return checkWinner(board);
 };
 
-game.subscribe(printBoard);
-game.subscribe(() => game.getState());
-game.subscribe(getInput('X'));
-game.subscribe(getInput('O'));
-game.subscribe(() => {
-  if (game.getState().winner) {
-    console.log(game.getState().winner, 'is the winner!');
-    process.exit(0);
-  }
-});
-game.subscribe(printWinner);
-game.subscribe(() => {
-  if (game.getState().error) console.log(game.getState().error);
-});
+const playC4 = () => {
+  game.subscribe(printBoard);
+  game.subscribe(() => game.getState());
+  game.subscribe(getInput('X'));
+  game.subscribe(getInput('O'));
+  game.subscribe(() => {
+    if (game.getState().winner) {
+      console.log(game.getState().winner, 'is the winner!');
+      process.exit(0);
+    }
+  });
+  game.subscribe(printWinner);
+  game.subscribe(() => {
+    if (game.getState().error) console.log(game.getState().error);
+  });
 
-game.dispatch({ type: 'START' });
+  game.dispatch({ type: 'START' });
+};
+
+export default playC4;

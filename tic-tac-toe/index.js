@@ -41,19 +41,23 @@ const aiMove = aiXO => {
   }
 };
 
-game.subscribe(printBoard);
-game.subscribe(() => game.getState());
-game.subscribe(getInput('X'));
-game.subscribe(() => aiMove('O'));
-game.subscribe(() => {
-  if (game.getState().winner) {
-    console.log(game.getState().winner, 'is the winner!');
-    process.exit(0);
-  }
-});
-game.subscribe(printWinner);
-game.subscribe(() => {
-  if (game.getState().error) console.log(game.getState().error);
-});
+const playXO = () => {
+  game.subscribe(printBoard);
+  game.subscribe(() => game.getState());
+  game.subscribe(getInput('X'));
+  game.subscribe(() => aiMove('O'));
+  game.subscribe(() => {
+    if (game.getState().winner) {
+      console.log(game.getState().winner, 'is the winner!');
+      process.exit(0);
+    }
+  });
+  game.subscribe(printWinner);
+  game.subscribe(() => {
+    if (game.getState().error) console.log(game.getState().error);
+  });
 
-game.dispatch({ type: 'START' });
+  game.dispatch({ type: 'START' });
+};
+
+export default playXO;
