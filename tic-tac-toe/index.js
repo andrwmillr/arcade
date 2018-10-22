@@ -23,7 +23,7 @@ const getInput = player => async () => {
     {
       type: 'input',
       name: 'coord',
-      message: `${turn}'s move (row,col):`,
+      message: `${turn}'s move (enter row,col):`,
     },
   ]);
   const [row = 0, col = 0] = ans.coord.split(/[,\s+]/).map(x => +x);
