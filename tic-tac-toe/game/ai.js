@@ -13,7 +13,7 @@ const moves = board => {
   return possMoves
 }
 
-// given a space, returns 1, 0, -1 depending onf whether moving moving into that space resuls in a win, draw, or loss
+// given a space, returns 1, 0, -1 depending on whether moving into that space resuls in a win, draw, or loss
 const score = (game, position) => {
   const newGame = reducer(game, move(game.turn, position))
   if (newGame.winner === game.turn) {
