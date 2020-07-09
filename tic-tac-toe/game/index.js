@@ -99,10 +99,6 @@ const bad = (state, action) => {
     if (posArr[0] < 0 || posArr[0] > 2 || posArr[1] < 0 || posArr[1] > 2) {
       return 'ERROR: please input a number between 0 and 2.';
     }
-    // if (typeof posArr[0] != Number || typeof posArr[1] != Number) {
-    //   console.log(posArr);
-    //   return 'ERROR: integers only!';
-    // }
     if (state.board.hasIn(action.position)) {
       return `ERROR: position ${action.position} is already filled.`;
     }
